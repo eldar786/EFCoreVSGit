@@ -1,0 +1,98 @@
+﻿@using EFCore2017.ViewModels;
+
+@*Tip podatka za ulazni model*@
+@model KorisnikPrikaziVM
+@{
+    ViewData["Title"] = "Prikazi";
+
+    var porukaSuccess = (string)TempData["porukaSuccess"];
+    var porukaWarning = (string)TempData["porukaWarning"];
+    var porukaError = (string)TempData["porukaError"];
+
+}
+
+@if (porukaError != null)
+{
+    <div class="alert alert-danger" role="alert" id="porukaBox">
+        @porukaError
+    </div>
+}
+
+@if (porukaWarning != null)
+{
+    <div class="alert alert-warning" role="alert" id="porukaBox">
+        @porukaWarning
+    </div>
+}
+
+@if (porukaSuccess != null)
+{
+    <div class="alert alert-success" role="alert" id="porukaBox">
+        @porukaSuccess
+    </div>
+}
+
+<h2>Prikazi</h2>
+
+
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>Naziv</th>
+            <th>Adresa</th>
+            <th>Korisnik ID</th>
+            <th>Naziv igre</th>
+            <th>Iznos Dobitka</th>
+            <th>Akcija</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (NekiDrugiNaziv x in Model.podaciZaHtmlTabelu)
+        {
+            <tr>
+                <td>@x.KorisnikNaziv</td>
+                <td>@x.KorisnikAdresa</td>
+                <td>@x.KorisnikID</td>
+                <td>
+                    @if (x.IgraNaziv == null)
+                    {
+                        <label>Korisnik nema naziv igre</label>
+                    }
+                    else
+                    {
+                        <label>@x.IgraNaziv</label>
+                    }
+
+                </td>
+                <td>
+                    @if (x.IznosDobitka == null || x.IznosDobitka == 0)
+                    {
+                        <label>Korisnik nema iznos dobitka</label>
+                    }
+                    else
+                    {
+                        <label>@x.IznosDobitka</label>
+                    }
+                </td>
+                <td>
+                    <a href="/Korisnik/Obrisi?KorisnikId=@x.KorisnikID" class="btn btn-danger">Obrisi</a>
+                    <a href="/Korisnik/UrediForm?KorisnikId=@x.KorisnikID" class="btn btn-info">Uredi</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    window.setTimeou(function () {
+        $("#porukaBox").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+        });
+    }, 4000);
+</script>
+
+<a href="/Korisnik/DodajForm" class="btn btn-success">Dodaj novi</a>
+
+
