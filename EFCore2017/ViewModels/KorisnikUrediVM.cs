@@ -11,7 +11,6 @@ namespace EFCore2017.ViewModels
 {
     public class KorisnikUrediVM
     {
-        [ForeignKey("KorisnikID")]
         public int KorisnikID { get; set;  }
         public string KorisnikNaziv { get; set;  }
         public string KorisnikAdresa { get; set;  }

@@ -19,9 +19,8 @@ namespace EFCore2017.ViewModels
         public string KorisnikAdresa { get; set; }
         public int KorisnikID { get; set; }
         public string IgraNaziv { get; set; }
-        public int? IznosDobitka { get; set; }
-
-               
+        public int IgraID { get; set; }
+        public int? IznosDobitka { get; set; }             
 
     }
 }

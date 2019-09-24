@@ -9,14 +9,18 @@ using EFCore2017.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 
-namespace EFCore2017.Controllers
+namespace EFCore2017.Controllers{
     public class KorisnikController : Controller
     {
         MyContext db = new MyContext();
+        List<Igra> igre = new List<Igra>();
+        List<Igra> igrePoKorisniku = new List<Igra>();
+        List<Korisnik> korisnici = new List<Korisnik>();
         public IActionResult DodajForm()
         {
             KorisnikUrediVM model = new KorisnikUrediVM();
             model.Igre = db.Igre.Select(i => new SelectListItem(i.Naziv, i.Id.ToString())).ToList();
+            
 
             return View("UrediForm", model);
         }
@@ -24,18 +28,34 @@ namespace EFCore2017.Controllers
         public IActionResult UrediForm(int KorisnikId)
         {
             MyContext db = new MyContext();
-            Korisnik k = db.Korisnici.Find(KorisnikId);
-            if (k == null)
-            {
-                TempData["porukaError"] = "Greska pri brisanju";
-                return RedirectToAction(nameof(Prikazi));
-            }
+            igre = db.Igre.ToList();
+            korisnici = db.Korisnici.ToList();
+
+            //Korisnik k = db.Korisnici.Find(KorisnikId);
+
+            //if (k == null)
+            //{
+            //    TempData["porukaError"] = "Greska pri brisanju";
+            //    return RedirectToAction(nameof(Prikazi));
+            //}
+            igrePoKorisniku = (from i in igre
+                               where i.KorisnikID == KorisnikId
+                               select i).ToList<Igra>();
 
             KorisnikUrediVM model = new KorisnikUrediVM();
-            model.Igre = db.Igre.Select(i => new SelectListItem(i.Naziv, i.Id.ToString())).ToList();
-            model.KorisnikID = k.Id;
-            model.KorisnikNaziv = k.Naziv;
-            model.KorisnikAdresa = k.Adresa;
+            
+            foreach (Igra i in igrePoKorisniku)
+            {
+                model.IgraNaziv = i.Naziv;
+                model.IznosDobitka = i.Iznos;
+                model.KorisnikID = KorisnikId;
+                model.KorisnikNaziv = (from k in korisnici
+                                      where k.Id == i.KorisnikID
+                                      select k.Naziv).FirstOrDefault();
+                model.KorisnikAdresa = (from k in korisnici
+                                        where k.Id == i.KorisnikID
+                                        select k.Adresa).FirstOrDefault();
+            }
 
             return View("UrediForm", model);
         }
@@ -58,7 +78,7 @@ namespace EFCore2017.Controllers
             x.Id = input.KorisnikID;
             x.Naziv = input.KorisnikNaziv;
             x.Adresa = input.KorisnikAdresa;
-            x.Igra.Naziv = input.IgraNaziv;
+          
             //x.Igra.Naziv = input.Igra.Naziv;       ***Ne snima unesene vrijednosti za IGRE***
 
 
@@ -74,13 +94,20 @@ namespace EFCore2017.Controllers
 
         public IActionResult Prikazi()
         {
-            List<NekiDrugiNaziv> podatak1 = db.Korisnici.Select(k => new NekiDrugiNaziv
+            korisnici = db.Korisnici.ToList();
+            List<NekiDrugiNaziv> podatak1 = db.Igre.Select(i => new NekiDrugiNaziv
             {
-                KorisnikNaziv = k.Naziv,
-                KorisnikAdresa = k.Adresa,
-                KorisnikID = k.Id,
-                IgraNaziv = k.Igra.Naziv,
-                IznosDobitka = k.Igra.Iznos
+                KorisnikNaziv = (from k in korisnici
+                                 where k.Id == i.KorisnikID
+                                 select k.Naziv).FirstOrDefault(),
+                KorisnikAdresa = (from k in korisnici
+                                  where k.Id == i.KorisnikID
+                                  select k.Naziv).FirstOrDefault(),
+            KorisnikID = (from k in korisnici
+                          where k.Id == i.KorisnikID
+                          select k.Id).FirstOrDefault(),
+            IgraNaziv = i.Naziv,
+                IznosDobitka = i.Iznos
             })
             .ToList();
 

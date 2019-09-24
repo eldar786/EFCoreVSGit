@@ -16,7 +16,6 @@ namespace EFCore2017.EntityModels
 
         public string Adresa { get; set; }
 
-        public Igra Igra { get; set; }
         
     }
 }
