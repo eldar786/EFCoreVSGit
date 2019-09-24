@@ -9,7 +9,7 @@ using EFCore2017.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 
-namespace EFCore2017.Controllers
+namespace EFCore2017.Controllers { 
     public class KorisnikController : Controller
     {
         MyContext db = new MyContext();
