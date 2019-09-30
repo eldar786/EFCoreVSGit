@@ -1,69 +1,65 @@
-﻿@model EFCore2017.ViewModels.KorisnikUrediVM
-
-
-
+﻿@model EFCore2017.ViewModels.KorisnikPrikaziViewModel
+@using EFCore2017.EF;
 @{
     ViewData["Title"] = "DodajForm";
-
 }
 
 @using EFCore2017.ViewModels;
 @using EFCore2017.EntityModels;
 
-<h2>DodajForm</h2>
+<h2>Uredi Form</h2>
 
 @*<form action="/Korisnik/Snimi" method="post">*@
 <form asp-action="Snimi">
 
     @*<input type="hidden" value="@Model.KorisnikID" name="KorisnikId" />*@
-    @Html.HiddenFor(s=>s.KorisnikID)
+    @Html.HiddenFor(s => s.KorisnikId)
 
     <div class="form-group">
         <label>Naziv</label>
         @*<input type="text" class="form-control" name="KorisnikNazivPolje" placeholder="Naziv" value="@Model.KorisnikNaziv">*@
         @*@Html.TextBoxFor(s => s.KorisnikNaziv)*@
-        <input asp-for="KorisnikNaziv" />
+        <input class="form-control" asp-for="@Model.Naziv" />
     </div>
 
     <div class="form-group">
         <label>Adresa</label>
-        @*<input type="text" class="form-control" name="KorisnikAdresaPolje" placeholder="Adresa" value="@Model.KorisnikAdresa">*@
-        @*@Html.TextBoxFor(s => s.KorisnikAdresa)*@
-        <input asp-for="KorisnikAdresa" />
+        @*HTML HELPER*@
+        @*@Html.TextBoxFor(s => s.Adresa)*@
+        <input class="form-control" asp-for="Adresa" />
     </div>
 
-    @*<div class="form-group">
+    <div class="form-group">
         <label>Iznos</label>
-        <input type="text" class="form-control" name="IznosDobitkaPolje" placeholder="Iznos" value="@Model.Igra.Iznos">
-    </div>*@
-
+        <input class="form-control" asp-for="IznosDobitka" />
+    </div>
 
 
     <div class="form-group">
         <label>IgraNaziv</label>
+        @*@Html.DropDownListFor(s => s.KorisnikId, Model.IgraNaziv)*@
 
-        @*@Html.DropDownListFor(s => s.KorisnikID, Model.Igre.ToList())*@
-
-        <select asp-for="IgraNaziv" asp-items="Model.Igre"></select>
-        @*<select class="form-control" name="IgraNazivPolje">
+        <select class="form-control" asp-for="IgraNaziv">
+            @*<select class="form-control" name="IgraNazivPolje">*@
             <option>---Odaberite igru---</option>
-            @foreach (Igra x in Model.Igre)
-            {
-                if (x.KorisnikID == Model.KorisnikID)
+            <option>BINGO</option>
+            <option>LOTO</option>
+            <option>LOTO PLUS</option>
+            <option>SRECKE</option>
+            @*@foreach (Igra x in db.Igre)
                 {
-                    <option value="@x.Id" selected="selected">@x.Naziv</option>
-                }
-                else
-                {
-                    <option value="@x.Id">@x.Naziv</option>
-                }
-            }
+                    if (x.KorisnikId == Model.KorisnikId)
+                    {
+                        <option value="@x.KorisnikId" selected="selected">@x.Naziv</option>
+                    }
+                    else
+                    {
+                        <option value="@x.KorisnikId">@x.Naziv</option>
+                    }
+                }*@
 
-        </select>*@
+        </select>
 
     </div>
-
-
     <input class="btn btn-primary" type="submit" name="name" value="Snimi" />
-
 </form>

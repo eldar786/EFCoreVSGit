@@ -11,14 +11,14 @@ namespace EFCore2017.Migrations
                 name: "Korisnici",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    KorisnikId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Naziv = table.Column<string>(nullable: true),
                     Adresa = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Korisnici", x => x.Id);
+                    table.PrimaryKey("PK_Korisnici", x => x.KorisnikId);
                 });
 
             migrationBuilder.CreateTable(
@@ -27,25 +27,25 @@ namespace EFCore2017.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    KorisnikID = table.Column<int>(nullable: false),
                     Naziv = table.Column<string>(nullable: true),
-                    Iznos = table.Column<int>(nullable: false)
+                    Iznos = table.Column<int>(nullable: true),
+                    KorisnikId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Igre", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Igre_Korisnici_KorisnikID",
-                        column: x => x.KorisnikID,
+                        name: "FK_Igre_Korisnici_KorisnikId",
+                        column: x => x.KorisnikId,
                         principalTable: "Korisnici",
-                        principalColumn: "Id",
+                        principalColumn: "KorisnikId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Igre_KorisnikID",
+                name: "IX_Igre_KorisnikId",
                 table: "Igre",
-                column: "KorisnikID",
+                column: "KorisnikId",
                 unique: true);
         }
 

@@ -1,0 +1,40 @@
+﻿@model EFCore2017.ViewModels.KorisnikPrikaziViewModel
+@{
+    ViewData["Title"] = "DodajForm";
+}
+
+<h2>Dodaj Form</h2>
+
+<form action="/Korisnik/DodajSnimi" method="post">
+
+    <div class="form-group">
+        <label>Naziv</label>
+        <input class="form-control" asp-for="Naziv" required />
+    </div>
+
+    <div class="form-group">
+        <label>Adresa</label>
+        <input class="form-control" asp-for="Adresa" required />
+    </div>
+
+    <div class="form-group" >
+        <label>Naziv igre</label>
+        <select class="form-control" asp-for="IgraNaziv">
+            <option>---Odaberite igru---</option>
+            <option>BINGO</option>
+            <option>LOTO</option>
+            <option>LOTO PLUS</option>
+            <option>SRECKE</option>
+            </select>
+    </div>
+     
+    <div class="form-group">
+        <label>Iznos dobitka</label>
+        <input class="form-control" asp-for="IznosDobitka" required />
+    </div>
+
+
+    <input type="submit" class="btn btn-primary"  name="name" value="Snimi" />
+
+</form>
+

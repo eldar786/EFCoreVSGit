@@ -1,9 +1,12 @@
 ﻿@using EFCore2017.ViewModels;
+@using EFCore2017.EntityModels;
 
 @*Tip podatka za ulazni model*@
-@model KorisnikPrikaziVM
+@model KorisnikPrikaziViewModel
 @{
     ViewData["Title"] = "Prikazi";
+
+    List<KorisnikPrikaziViewModel> podaci = (List<KorisnikPrikaziViewModel>)ViewData["podaci-kljuc"];
 
     var porukaSuccess = (string)TempData["porukaSuccess"];
     var porukaWarning = (string)TempData["porukaWarning"];
@@ -49,12 +52,12 @@
     </thead>
 
     <tbody>
-        @foreach (NekiDrugiNaziv x in Model.podaciZaHtmlTabelu)
+        @foreach (KorisnikPrikaziViewModel x in podaci)
         {
             <tr>
-                <td>@x.KorisnikNaziv</td>
-                <td>@x.KorisnikAdresa</td>
-                <td>@x.KorisnikID</td>
+                <td>@x.Naziv</td>
+                <td>@x.Adresa</td>
+                <td>@x.KorisnikId</td>
                 <td>
                     @if (x.IgraNaziv == null)
                     {
@@ -77,8 +80,8 @@
                     }
                 </td>
                 <td>
-                    <a href="/Korisnik/Obrisi?KorisnikId=@x.KorisnikID" class="btn btn-danger">Obrisi</a>
-                    <a href="/Korisnik/UrediForm?KorisnikId=@x.KorisnikID" class="btn btn-info">Uredi</a>
+                    <a href="/Korisnik/Obrisi?KorisnikId=@x.KorisnikId" class="btn btn-danger">Obrisi</a>
+                    <a href="/Korisnik/UrediForm?KorisnikId=@x.KorisnikId" class="btn btn-info">Uredi</a>
                 </td>
             </tr>
         }

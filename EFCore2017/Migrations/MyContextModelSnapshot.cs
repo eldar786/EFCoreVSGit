@@ -25,15 +25,15 @@ namespace EFCore2017.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Iznos");
+                    b.Property<int?>("Iznos");
 
-                    b.Property<int>("KorisnikID");
+                    b.Property<int>("KorisnikId");
 
                     b.Property<string>("Naziv");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("KorisnikID")
+                    b.HasIndex("KorisnikId")
                         .IsUnique();
 
                     b.ToTable("Igre");
@@ -41,7 +41,7 @@ namespace EFCore2017.Migrations
 
             modelBuilder.Entity("EFCore2017.EntityModels.Korisnik", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("KorisnikId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -49,37 +49,16 @@ namespace EFCore2017.Migrations
 
                     b.Property<string>("Naziv");
 
-                    b.HasKey("Id");
+                    b.HasKey("KorisnikId");
 
                     b.ToTable("Korisnici");
-                });
-
-            modelBuilder.Entity("EFCore2017.ViewModels.KorisnikPrikaziViseTabelaViewModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("IgraNaziv");
-
-                    b.Property<int?>("IznosDobitka");
-
-                    b.Property<string>("KorisnikAdresa");
-
-                    b.Property<int>("KorisnikID");
-
-                    b.Property<string>("KorisnikNaziv");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("KorisniciIgreTabela");
                 });
 
             modelBuilder.Entity("EFCore2017.EntityModels.Igra", b =>
                 {
                     b.HasOne("EFCore2017.EntityModels.Korisnik")
                         .WithOne("Igra")
-                        .HasForeignKey("EFCore2017.EntityModels.Igra", "KorisnikID")
+                        .HasForeignKey("EFCore2017.EntityModels.Igra", "KorisnikId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
